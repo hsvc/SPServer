@@ -1,10 +1,24 @@
-const http = require('http');
-const port = 8080;
-http.createServer(function(request, response){
-  console.log('HTTP server start on port ' + port);
+/**
+ * Module dependencies.
+ */
+var express  = require('express');
+var connect = require('connect');
+var app      = express();
+var port     = process.env.PORT || 8080;
 
-  response.writeHead(200, {'Content-type': 'text/plan'});
-  response.write('Hello Node World!');
+// Configuration
+app.use(express.static(__dirname + '/public'));
+app.use(connect.cookieParser());
+app.use(connect.logger('dev'));
+app.use(connect.bodyParser());
 
-  response.end( );
-}).listen(port);
+app.use(connect.json());
+app.use(connect.urlencoded());
+
+// Routes
+
+require('./routes/routes.js')(app);
+
+
+app.listen(port);
+console.log('The App runs on port ' + port);
