@@ -17,7 +17,6 @@ module.exports = function(app) {
 	});
 
 	app.post('/upload', function(req, res) {
-			console.log("무엇이 문 제 !");
 			console.log(req.files.image.originalFilename);
 			console.log(req.files.image.path);
 			fs.readFile(req.files.image.path, function (err, data){
