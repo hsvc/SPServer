@@ -12,38 +12,34 @@ delete
 var fs = require('fs');
 
 module.exports = function(app) {
-	app.get('/',function(req,res){
-			res.end("Node-File-Upload");
-	});
+        app.get('/',function(req,res){
+                        res.end("Node-File-Upload");
+        });
 
-	app.post('/upload', function(req, res) {
-			console.log(req.files.image.originalFilename);
-			console.log(req.files.image.path);
-			fs.readFile(req.files.image.path, function (err, data){
-					//var dirname="/root/SPServer/routes/file-upload"; // on linux
-					var dirname="C:\\and\\SPServer\\routes\\file-upload"; // on window
-					//var newPath = dirname + "/uploads/" +   req.files.image.originalFilename; // on linux
-					var newPath = dirname + "\\uploads\\" +   req.files.image.originalFilename; // on window
+        app.post('/upload', function(req, res) {
+                        console.log(req.files.upload.originalFilename);
 
-					fs.writeFile(newPath, data, function (err) {
-						if(err){
-						res.json({'response':"Error"});
-						}else {
-						res.json({'response':"Saved"});
-						}
-					});
-			});
-	});
-	
-	
-	app.get('/uploads/:file', function (req, res){
-		file = req.params.file;
-		//var dirname="/root/SPServer/routes/file-upload"; // on linux
-		var dirname="C:\\and\\SPServer\\routes\\file-upload"; // on window
-		//var img = fs.readFileSync(dirname + "/uploads/" + file); // on linux
-		var img = fs.readFileSync(dirname + "\\uploads\\" + file); // on window
-		res.writeHead(200, {'Content-Type': 'image/jpg' });
-		res.end(img, 'binary');
-	});
+                        fs.readFile(req.files.upload.path, function (err, data){
+                                        var dirname="/root/SPServer/routes/file-upload"; // on linux
+                                        var newPath = dirname + "/uploads/" +   req.files.upload.originalFilename; // on linux
+
+                                        fs.writeFile(newPath, data, function (err) {
+                                                if(err){
+                                                res.json({'response':"Error"});
+                                                }else {
+                                                res.json({'response':"Saved"});
+                                                }
+                                        });
+                        });
+        });
+
+
+        app.get('/uploads/:file', function (req, res){
+                file = req.params.file;
+                var dirname="/root/SPServer/routes/file-upload"; // on linux
+                var img = fs.readFileSync(dirname + "/uploads/" + file); // on linux
+
+                res.writeHead(200, {'Content-Type': 'image/jpg' });
+                res.end(img, 'binary');
+        });
 };
-	
