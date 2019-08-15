@@ -8,6 +8,7 @@ cd SPServer
 apt install npm
 apt-get install nodejs-legacy
 npm install forever -g
+npm install python-server --save
 npm install
 
 forever start app.js//putty를 종료해도 접속할 수 있도록
