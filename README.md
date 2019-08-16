@@ -9,7 +9,7 @@ apt install npm
 apt-get install nodejs-legacy
 npm install forever -g
 npm install
-
+npm install python-shell
 forever start app.js//putty를 종료해도 접속할 수 있도록
 forever list//forever 로 돌리고 있는 리스트
 forever stop 0//서버 종료
