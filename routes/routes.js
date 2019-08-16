@@ -6,10 +6,26 @@ get: 페이지 url으로 응답
 post: post요청에 대한 응답
 put
 delete
-
 */
 
 var fs = require('fs');
+const multer = require('multer')
+const fileType = require('file-type')
+const express = require('express')
+
+const upload = multer({
+        dest:'images/', 
+        limits: {fileSize: 10000000, files: 1},
+        fileFilter:  (req, file, callback) => {
+        
+            if (!file.originalname.match(/\.(jpg|jpeg)$/)) {
+    
+                return callback(new Error('Only Images are allowed !'), false)
+            }
+    
+            callback(null, true);
+        }
+    }).single('image')
 
 module.exports = function(app) {
         app.get('/',function(req,res){
@@ -18,20 +34,20 @@ module.exports = function(app) {
 
         /* Upload Func */
         app.post('/upload', function(req, res) {
-                        console.log(req.files.upload.originalFilename);
+                console.log(req.files.upload.originalFilename);
 
-                        fs.readFile(req.files.upload.path, function (err, data){
-                                        var dirname="/root/SPServer/routes/uploads"; // on linux
-                                        var newPath = dirname + "/" +   req.files.upload.originalFilename; // on linux
+                fs.readFile(req.files.upload.path, function (err, data){
+                        var dirname="/root/SPServer/routes/uploads"; // on linux
+                        var newPath = dirname + "/" +   req.files.upload.originalFilename; // on linux
 
-                                        fs.writeFile(newPath, data, function (err) {
-                                                if(err){
-                                                res.json({'response':"Error"});
-                                                }else {
-                                                res.json({'response':"Saved"});
-                                                }
-                                        });
+                        fs.writeFile(newPath, data, function (err) {
+                        if(err){
+                                res.json({'response':"Error"});
+                        }else {
+                                res.json({'response':"Saved"});
+                                }
                         });
+                });
         });
 
         app.get('/uploads/:file', function (req, res){
@@ -44,4 +60,20 @@ module.exports = function(app) {
         });
 
         /* Download Func */
+        app.post('/download', (req, res) => {
+
+                upload(req, res, function (err) {
+            
+                    if (err) {
+            
+                        res.status(400).json({message: err.message})
+            
+                    } else {
+                        console.log(req.files.image.originalFilename);
+                        let path = `/routes/downloads/${req.files.image.originalFilename}`
+                        res.status(200).json({message: 'Image Uploaded Successfully !', path: path})
+                    }
+                })
+            })
+
 };
