@@ -12,6 +12,7 @@ var fs = require('fs');
 const multer = require('multer')
 const fileType = require('file-type')
 const express = require('express')
+const ps = require('python-shell')
 
 const upload = multer({
         dest:'images/', 
@@ -37,7 +38,8 @@ module.exports = function(app) {
                 console.log(req.files.upload.originalFilename);
 
                 fs.readFile(req.files.upload.path, function (err, data){
-                        var dirname="/root/SPServer/routes/uploads"; // on linux
+                        //var dirname="/root/SPServer/routes/uploads"; // on linux
+                        var dirname="/root/Example/SPServer/CycleGAN-tensorflow-master/datasets/monet2photo/testB"
                         var newPath = dirname + "/" +   req.files.upload.originalFilename; // on linux
 
                         fs.writeFile(newPath, data, function (err) {
@@ -47,6 +49,21 @@ module.exports = function(app) {
                                 res.json({'response':"Saved"});
                                 }
                         });
+                });
+
+                var options = {
+                    mode: 'text',
+                    // pythonPath: "C:\\Python34\\python.exe", //window path
+                    pythonPath: "/usr/bin/python3",    //ubuntu path
+                    pythonOptions: ['-u'],
+                    scriptPath: './CycleGAN-tensorflow-master',    // 실행할 py 파일 path. 현재 nodejs파일과 같은 경로에 있어 생략
+                    args: ['--dataset_dir=monet2photo','--phase=test', '--which_direction=BtoA']
+                };
+
+                ps.PythonShell.run('main.py', options, function (err, results) {
+                    if (err) throw err;
+                    // results is an array consisting of messages collected during execution
+                    console.log('results: %j', results);
                 });
         });
 
@@ -69,8 +86,9 @@ module.exports = function(app) {
                         res.status(400).json({message: err.message})
             
                     } else {
-                        console.log(req.files.image.originalFilename);
-                        let path = `/routes/downloads/${req.files.image.originalFilename}`
+                        //console.log(req.files.image.originalFilename);
+                        //var path = `/routes/downloads/${req.files.image.originalFilename}`
+                        var path=`/routes/downloads/2.jpg`
                         res.status(200).json({message: 'Image Uploaded Successfully !', path: path})
                     }
                 })
