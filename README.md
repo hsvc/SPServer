@@ -1,6 +1,8 @@
 # SPServer
 
 ### Build Setup(For making DockerFile)
+
+`서버 생성시 1) 공인 IP 설정 2) ACG 설정(1-65535)`
 ```
 apt install git
 apt install git clone "https://github.com/hsvc/SPServer"
@@ -16,5 +18,3 @@ forever list//forever 로 돌리고 있는 리스트
 forever stop 0//서버 종료
 # [서버주소]:3000
 ```
-
-`서버 생성시 1) 공인 IP 설정 2) ACG 설정(1-65535)`
