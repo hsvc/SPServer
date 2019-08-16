@@ -16,12 +16,13 @@ module.exports = function(app) {
                         res.end("Node-File-Upload");
         });
 
+        /* Upload Func */
         app.post('/upload', function(req, res) {
                         console.log(req.files.upload.originalFilename);
 
                         fs.readFile(req.files.upload.path, function (err, data){
-                                        var dirname="/root/SPServer/routes/file-upload"; // on linux
-                                        var newPath = dirname + "/uploads/" +   req.files.upload.originalFilename; // on linux
+                                        var dirname="/root/SPServer/routes/uploads"; // on linux
+                                        var newPath = dirname + "/" +   req.files.upload.originalFilename; // on linux
 
                                         fs.writeFile(newPath, data, function (err) {
                                                 if(err){
@@ -33,13 +34,14 @@ module.exports = function(app) {
                         });
         });
 
-
         app.get('/uploads/:file', function (req, res){
                 file = req.params.file;
-                var dirname="/root/SPServer/routes/file-upload"; // on linux
-                var img = fs.readFileSync(dirname + "/uploads/" + file); // on linux
+                var dirname="/root/SPServer/routes/uploads"; // on linux
+                var img = fs.readFileSync(dirname + "/" + file); // on linux
 
                 res.writeHead(200, {'Content-Type': 'image/jpg' });
                 res.end(img, 'binary');
         });
+
+        /* Download Func */
 };
