@@ -8,11 +8,13 @@ put
 delete
 */
 
-var fs = require('fs');
+const fs = require('fs');
 const multer = require('multer')
 const fileType = require('file-type')
 const express = require('express')
 const ps = require('python-shell')
+// Add current path to filename
+//const currentPath = path.join(__dirname, process.argv[2]);
 
 const upload = multer({
         dest:'images/', 
@@ -30,7 +32,7 @@ const upload = multer({
 var filename;
 module.exports = function(app) {
         app.get('/',function(req,res){
-                        res.end("Node-File-Upload");
+                        res.end(currentPath);
         });
 
         /* Upload Func */
@@ -79,25 +81,25 @@ module.exports = function(app) {
 
         /* Download Func */
         app.get('/download', (req, res) => {
-
                 upload(req, res, function (err) {
-            
                     if (err) {
-            
                         res.status(400).json({message: err.message})
-            
                     } else {
-//                        console.log(req);
-//                        var path = `/routes/downloads/${req.files.image.originalFilename}`
-//			var path=`/root/SPServer/routes/downloads/2.jpg` 
-//                       res.status(200).json({message: 'Image Uploaded Successfully !', path: path})
-//			console.log(req);
-//			var path =`/root/Example/SPServer/test/${req.files.image.originalFilename}`
-			var path ="/root/Example/SPServer/test/BtoA_"+filename
-			var img=fs.readFileSync(path);
-			res.writeHead(200, {'Content-Type':'image/jpg'});
-			res.end(img, 'binary');
+                    var path ="/root/Example/SPServer/test/BtoA_"+filename
+                    var img=fs.readFileSync(path);
+                    res.writeHead(200, {'Content-Type':'image/jpg'});
+                    res.end(img, 'binary');
                     }
                 })
+                // after download, files are deleted
+                fs.unlink("/root/Example/SPServer/CycleGAN-tensorflow-master/datasets/monet2photo/testB/"+filename, function(err){
+                    if( err ) throw err;
+                    console.log('file deleted');
+                });
+                fs.unlink("/root/Example/SPServer/test/BtoA_"+filename, function(err){
+                    if( err ) throw err;
+                    console.log('file deleted');
+                });
+
             })
 };
