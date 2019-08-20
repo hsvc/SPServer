@@ -1,8 +1,6 @@
 const ps = require('python-shell');
 
-
-
-let options = {
+var options = {
 
     mode: 'text',
 
