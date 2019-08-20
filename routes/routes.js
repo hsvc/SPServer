@@ -13,8 +13,8 @@ const multer = require('multer')
 const fileType = require('file-type')
 const express = require('express')
 const ps = require('python-shell')
-// Add current path to filename
-//const currentPath = path.join(__dirname, process.argv[2]);
+// Absolute Path, change when you use this code !
+const absPath="/root/SPServer"
 
 const upload = multer({
         dest:'images/', 
@@ -30,6 +30,7 @@ const upload = multer({
         }
     }).single('image')
 var filename;
+
 module.exports = function(app) {
         app.get('/',function(req,res){
                         res.end(currentPath);
@@ -38,20 +39,20 @@ module.exports = function(app) {
         /* Upload Func */
         app.post('/upload', function(req, res) {
                 console.log(req.files.upload.originalFilename);
-
+                /* Monet */
                 fs.readFile(req.files.upload.path, function (err, data){
-                        //var dirname="/root/SPServer/routes/uploads"; // on linux
-                        var dirname="/root/Example/SPServer/CycleGAN-tensorflow-master/datasets/monet2photo/testB"
-    			filename=req.files.upload.originalFilename;
-	                    var newPath = dirname + "/" +   filename; // on linux
-
-                        fs.writeFile(newPath, data, function (err) {
+                    filename=req.files.upload.originalFilename;
+                    // make file to implement (monet, vangogh, cezanne, plain)
+                    fs.writeFileSync(absPath + "/CycleGAN-tensorflow-master/datasets/vangogh2photo/testB/vangogh_"+filename, data);
+                    fs.writeFileSync(absPath + "/CycleGAN-tensorflow-master/datasets/cezanne2photo/testB/cezanne_"+filename, data);
+                    fs.writeFileSync(absPath + "/test/"+filename, data);
+                    fs.writeFile(absPath + "/CycleGAN-tensorflow-master/datasets/monet2photo/testB/monet_"+filename, data, function (err) {
                         if(err){
-                                res.json({'response':"Error"});
+                            res.json({'response':"Error"});
                         }else {
-                                res.json({'response':"Saved"});
-                                }
-                        });
+                            res.json({'response':"Saved"});
+                            }
+                    });
                 });
 	
                 var options = {
@@ -62,7 +63,6 @@ module.exports = function(app) {
                     scriptPath: './CycleGAN-tensorflow-master',    // 실행할 py 파일 path. 현재 nodejs파일과 같은 경로에 있어 생략
                     args: ['--dataset_dir=monet2photo','--phase=test', '--which_direction=BtoA']
                 };
-		console.log("processing...");
                 ps.PythonShell.run('main.py', options, function (err, results) {
                     if (err) throw err;
                     // results is an array consisting of messages collected during execution
@@ -72,7 +72,7 @@ module.exports = function(app) {
 
         app.get('/uploads/:file', function (req, res){
                 file = req.params.file;
-                var dirname="/root/SPServer/routes/uploads"; // on linux
+                var dirname=absPath+"/routes/uploads"; // on linux
                 var img = fs.readFileSync(dirname + "/" + file); // on linux
 
                 res.writeHead(200, {'Content-Type': 'image/jpg' });
@@ -85,20 +85,20 @@ module.exports = function(app) {
                     if (err) {
                         res.status(400).json({message: err.message})
                     } else {
-                    var path ="/root/Example/SPServer/test/BtoA_"+filename
+                    var path =absPath+"/test/BtoA_monet"+filename
                     var img=fs.readFileSync(path);
                     res.writeHead(200, {'Content-Type':'image/jpg'});
                     res.end(img, 'binary');
                     }
                 })
                 // after download, files are deleted
-                fs.unlink("/root/Example/SPServer/CycleGAN-tensorflow-master/datasets/monet2photo/testB/"+filename, function(err){
+                fs.unlink(absPath+"/CycleGAN-tensorflow-master/datasets/monet2photo/testB/"+filename, function(err){
                     if( err ) throw err;
-                    console.log('file deleted');
+                    console.log('origin monet : file deleted');
                 });
-                fs.unlink("/root/Example/SPServer/test/BtoA_"+filename, function(err){
+                fs.unlink(absPath+"/test/BtoA_monet"+filename, function(err){
                     if( err ) throw err;
-                    console.log('file deleted');
+                    console.log('test monet: file deleted');
                 });
 
             })
