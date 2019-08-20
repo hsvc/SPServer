@@ -27,7 +27,7 @@ const upload = multer({
             callback(null, true);
         }
     }).single('image')
-
+var filename;
 module.exports = function(app) {
         app.get('/',function(req,res){
                         res.end("Node-File-Upload");
@@ -40,7 +40,8 @@ module.exports = function(app) {
                 fs.readFile(req.files.upload.path, function (err, data){
                         //var dirname="/root/SPServer/routes/uploads"; // on linux
                         var dirname="/root/Example/SPServer/CycleGAN-tensorflow-master/datasets/monet2photo/testB"
-                        var newPath = dirname + "/" +   req.files.upload.originalFilename; // on linux
+    			filename=req.files.upload.originalFilename;
+	                    var newPath = dirname + "/" +   filename; // on linux
 
                         fs.writeFile(newPath, data, function (err) {
                         if(err){
@@ -50,7 +51,7 @@ module.exports = function(app) {
                                 }
                         });
                 });
-
+	
                 var options = {
                     mode: 'text',
                     // pythonPath: "C:\\Python34\\python.exe", //window path
@@ -59,7 +60,7 @@ module.exports = function(app) {
                     scriptPath: './CycleGAN-tensorflow-master',    // 실행할 py 파일 path. 현재 nodejs파일과 같은 경로에 있어 생략
                     args: ['--dataset_dir=monet2photo','--phase=test', '--which_direction=BtoA']
                 };
-
+		console.log("processing...");
                 ps.PythonShell.run('main.py', options, function (err, results) {
                     if (err) throw err;
                     // results is an array consisting of messages collected during execution
@@ -77,7 +78,7 @@ module.exports = function(app) {
         });
 
         /* Download Func */
-        app.post('/download', (req, res) => {
+        app.get('/download', (req, res) => {
 
                 upload(req, res, function (err) {
             
@@ -86,12 +87,17 @@ module.exports = function(app) {
                         res.status(400).json({message: err.message})
             
                     } else {
-                        //console.log(req.files.image.originalFilename);
-                        //var path = `/routes/downloads/${req.files.image.originalFilename}`
-                        var path=`/routes/downloads/2.jpg`
-                        res.status(200).json({message: 'Image Uploaded Successfully !', path: path})
+//                        console.log(req);
+//                        var path = `/routes/downloads/${req.files.image.originalFilename}`
+//			var path=`/root/SPServer/routes/downloads/2.jpg` 
+//                       res.status(200).json({message: 'Image Uploaded Successfully !', path: path})
+//			console.log(req);
+//			var path =`/root/Example/SPServer/test/${req.files.image.originalFilename}`
+			var path ="/root/Example/SPServer/test/BtoA_"+filename
+			var img=fs.readFileSync(path);
+			res.writeHead(200, {'Content-Type':'image/jpg'});
+			res.end(img, 'binary');
                     }
                 })
             })
-
 };
