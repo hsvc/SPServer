@@ -1,6 +1,8 @@
 # SPServer
 
 ### Build Setup(For making DockerFile)
+
+`서버 생성시 1) 공인 IP 설정 2) ACG 설정(1-65535)`
 ```
 apt install git
 apt install git clone "https://github.com/hsvc/SPServer"
@@ -8,12 +10,21 @@ cd SPServer
 apt install npm
 apt-get install nodejs-legacy
 npm install forever -g
+npm install python-shell --save
 npm install
-npm install python-shell
+npm install --save multer
 forever start app.js//putty를 종료해도 접속할 수 있도록
 forever list//forever 로 돌리고 있는 리스트
 forever stop 0//서버 종료
 # [서버주소]:3000
+pip3 install tensorflow
+pip3 install scipy==1.1.0
+pip3 install imageio 
+apt-get install zip unzip
 ```
 
-> 서버 생성시 1) 공인 IP 설정 2) ACG 설정(1-65535)
+### Environment
+
+node.js 8.16.1
+python 3.5.2
+scipy 1.1.0
