@@ -1,81 +1,58 @@
-﻿# SPServer
+# Street Painter
 
-### Build Setup(For making DockerFile)
+![ㅍㅍㅌ](https://user-images.githubusercontent.com/29014659/63372059-336fdf80-c33a-11e9-8d54-d7a7d16347a2.jpg)
 
-`서버 생성시 1) 공인 IP 설정 2) ACG 설정(1-65535)`
-```
-apt install git
-apt install git clone "https://github.com/hsvc/SPServer"
-cd SPServer
-apt install npm
-apt-get install nodejs-legacy
-npm install forever -g
-npm install python-shell --save
-npm install
-npm install --save multer
+## Introduction
 
-forever start app.js//putty를 종료해도 접속할 수 있도록
-forever list//forever 로 돌리고 있는 리스트
-forever stop 0//서버 종료
-# [서버주소]:3000
+This is a repository for team - project done in Head Start Silicon Valley 2019 program.
+Our is to develop a service for amateur painters which can help them with coloring their sketch.
+If user inputs a sketch the system returns a 3 fully colored painting that has a similar feeling with Monet, Cezanne, Gogh.
 
-pip3 install tensorflow
-pip3 install scipy==1.1.0
-pip3 install imageio 
-apt-get install zip unzip
-```
+## Getting Started
 
-### Environment
+This is a description for opening **back-end server**. The **android application** is available in [here](https://github.com/hsvc/AppSketch).
 
-node.js 8.16.1
-python 3.5.2
-scipy 1.1.0
+### Prerequisites
 
-### DockerFile
-```
-FROM ubuntu:18.04
-LABEL jingyeong <sandsand1166@gmail.com>
-RUN apt-get update
-Run apt-get -y upgrade
-RUN apt install -y git
-RUN git clone "https://github.com/hsvc/SPServer"
-RUN cd /SPServer
-RUN apt-get install -y nodejs
-RUN apt install -y npm
-RUN npm install forever -g
-RUN npm install --save python-shell
-RUN npm install
-RUN npm install --save multer
-RUN apt-get install -y python3.6
-RUN apt-get install -y python3-pip
-RUN pip3 install tensorflow
-RUN pip3 install scipy==1.1.0
-RUN pip3 install imageio
-RUN apt-get install zip unzip
+You'll need a **docker** for our back-end.
 
-WORKDIR SPServer
+* [Windows](https://docs.docker.com/docker-for-windows/install/)
+* [Mac](https://docs.docker.com/docker-for-mac/install/)
+* [Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+### Installing  
 
-CMD ["node","app.js"]
-EXPOSE 3000
+**Dockerfile build**
 
 ```
-
-
-
-### dockerfile build 
-
-```
-cd dockerfile있는 곳
+cd "dockerfile_dir"
 sudo docker build -t app .
 ```
-### run container - Daemon으로 실행
+**Opt 1) Run via 'container - Daemom'**
 ```
 sudo docker run --name nodeweb -d -p 3000:3000 app
-# docker stop nodeweb -container 종료 
+# if you want to stop "docker stop nodeweb -container"
 ```
 
-### run container - container bash shell 실행
+**Opt 2) Run via 'container - container bash shell'**
 ```
 sudo docker run -i -t app /bin/bash
-#bash에서 나가고 싶을 시 ctrl+p+q
+# if you want to get out of bash "ctrl+p+q"
 ```
+## Built With
+
+* [GCP](https://cloud.google.com/gcp/?utm_source=google&utm_medium=cpc&utm_campaign=na-US-all-en-dr-bkws-all-all-trial-b-dr-1007179&utm_content=text-ad-none-any-DEV_c-CRE_114825958447-ADGP_Hybrid%20%7C%20AW%20SEM%20%7C%20BKWS%20%7C%20US%20%7C%20en%20%7C%20BMM%20~%20Google%20Platform%20Cloud-KWID_43700010161835515-kwd-101618149257&utm_term=KW_%2Bgoogle%20%2Bplatform%20%2Bcloud-ST_%2Bgoogle%20%2Bplatform%20%2Bcloud&gclid=CjwKCAjwtO7qBRBQEiwAl5WC22vmkj6L5R0D7KSf491x4R4gQaW7JAz3YnV_Sm0IhUcuVONA_bvK4BoC2SoQAvD_BwE) - The cloud we used to train Cycle-GAN model
+* [Node.JS](https://nodejs.org/en/docs/) - Back-end
+* [Android Studio](https://developer.android.com/docs) - Application development
+* [Docker](https://docs.docker.com/) - Back-end environment management & deployment
+
+## Contributing
+
+* [Ji-Hye Shin](https://github.com/jihyyeshin) - Android application development
+* [Jin-Gyeong Park](https://github.com/sand116) - Back-end development
+* [Young-Ki Kim](https://github.com/kimyoungi99) - Model training
+
+## Reference
+
+* GAN - [Paper](https://arxiv.org/abs/1406.2661)
+* Cycle-GAN - [Paper](https://arxiv.org/abs/1703.10593)
+* Cycle-GAN - [Code](https://github.com/xhujoy/CycleGAN-tensorflow)
