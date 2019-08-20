@@ -31,8 +31,6 @@ node.js 8.16.1
 python 3.5.2
 scipy 1.1.0
 
-# SPServer
-
 ### DockerFile
 ```
 FROM ubuntu:18.04
