@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This is a repository for team - project done in Head Start Silicon Valley 2019 program.
+This is a repository for team - project done in **Head Start Silicon Valley 2019** program.
 Our is to develop a service for amateur painters which can help them with coloring their sketch.
 If user inputs a sketch the system returns a 3 fully colored painting that has a similar feeling with Monet, Cezanne, Gogh.
 
