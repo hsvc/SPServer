@@ -1,4 +1,4 @@
-# SPServer
+﻿# SPServer
 
 ### Build Setup(For making DockerFile)
 
@@ -13,10 +13,12 @@ npm install forever -g
 npm install python-shell --save
 npm install
 npm install --save multer
+
 forever start app.js//putty를 종료해도 접속할 수 있도록
 forever list//forever 로 돌리고 있는 리스트
 forever stop 0//서버 종료
 # [서버주소]:3000
+
 pip3 install tensorflow
 pip3 install scipy==1.1.0
 pip3 install imageio 
