@@ -15,6 +15,8 @@ This is a description for opening **back-end server**. The **android application
 
 ### Prerequisites
 
+All source codes are created in a **VSCode + Windows10 + Node.js 8.16.1** environment.
+
 You'll need a **docker** for our back-end.
 
 * [Windows](https://docs.docker.com/docker-for-windows/install/)
