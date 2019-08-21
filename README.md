@@ -1,6 +1,6 @@
 # Street Painter
 
-![ㅍㅍㅌ](https://user-images.githubusercontent.com/29014659/63372059-336fdf80-c33a-11e9-8d54-d7a7d16347a2.jpg)
+![resultImage](https://user-images.githubusercontent.com/37070273/63467960-9b8d0580-c4a1-11e9-8558-b08fadb9e26a.jpg)
 
 ## Introduction
 
