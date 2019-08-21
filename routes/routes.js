@@ -123,10 +123,10 @@ module.exports = function(app) {
                     if( err ) throw err;
                     console.log('origin monet : file deleted');
                 });
-                // fs.unlink(absPath+"/test/BtoA_monet_"+filename, function(err){
-                //     if( err ) throw err;
-                //     console.log('test monet : file deleted');
-                // });
+                fs.unlink(absPath+"/test/BtoA_monet_"+filename, function(err){
+                    if( err ) throw err;
+                    console.log('test monet : file deleted');
+                });
 
             })
 
@@ -146,10 +146,10 @@ module.exports = function(app) {
                     if( err ) throw err;
                     console.log('origin vangogh : file deleted');
                 });
-                // fs.unlink(absPath+"/test/BtoA_vangogh_"+filename, function(err){
-                //     if( err ) throw err;
-                //     console.log('test vangogh : file deleted');
-                // });
+                fs.unlink(absPath+"/test/BtoA_vangogh_"+filename, function(err){
+                    if( err ) throw err;
+                    console.log('test vangogh : file deleted');
+                });
 
             })
         app.get('/download/cezanne', (req, res) => {
@@ -168,10 +168,10 @@ module.exports = function(app) {
                     if( err ) throw err;
                     console.log('origin cezanne : file deleted');
                 });
-                // fs.unlink(absPath+"/test/BtoA_cezanne_"+filename, function(err){
-                //     if( err ) throw err;
-                //     console.log('test cezanne : file deleted');
-                // });
+                fs.unlink(absPath+"/test/BtoA_cezanne_"+filename, function(err){
+                    if( err ) throw err;
+                    console.log('test cezanne : file deleted');
+                });
 
             })
         
@@ -186,10 +186,10 @@ module.exports = function(app) {
                     res.end(img, 'binary');
                     }
                 })
-                // fs.unlink(absPath+"/test/"+filename, function(err){
-                //     if( err ) throw err;
-                //     console.log('plain : file deleted');
-                // });
+                fs.unlink(absPath+"/test/"+filename, function(err){
+                    if( err ) throw err;
+                    console.log('plain : file deleted');
+                });
 
             })
 };
