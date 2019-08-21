@@ -54,6 +54,7 @@ module.exports = function(app) {
                             }
                     });
                 });
+                console.log("read file fin")
                 // Monet 
                 var options = {
                     mode: 'text',
@@ -65,7 +66,7 @@ module.exports = function(app) {
                 ps.PythonShell.run('main.py', options, function (err, results) {
                     if (err) throw err;
                     // results is an array consisting of messages collected during execution
-                    console.log('results: %j', results);
+                    console.log('monet results: %j', results);
                 });
                 // Van gogh
                 options = {
@@ -78,7 +79,7 @@ module.exports = function(app) {
                 ps.PythonShell.run('main.py', options, function (err, results) {
                     if (err) throw err;
                     // results is an array consisting of messages collected during execution
-                    console.log('results: %j', results);
+                    console.log('vangogh results: %j', results);
                 });
                 // Cezanne
                 options = {
@@ -91,41 +92,104 @@ module.exports = function(app) {
                 ps.PythonShell.run('main.py', options, function (err, results) {
                     if (err) throw err;
                     // results is an array consisting of messages collected during execution
-                    console.log('results: %j', results);
+                    console.log('cezanne results: %j', results);
                 });
 
         });
 
-        app.get('/uploads/:file', function (req, res){
-                file = req.params.file;
-                var dirname=absPath+"/routes/uploads"; // on linux
-                var img = fs.readFileSync(dirname + "/" + file); // on linux
+        // app.get('/uploads/:file', function (req, res){
+        //         file = req.params.file;
+        //         var dirname=absPath+"/routes/uploads"; // on linux
+        //         var img = fs.readFileSync(dirname + "/" + file); // on linux
 
-                res.writeHead(200, {'Content-Type': 'image/jpg' });
-                res.end(img, 'binary');
-        });
+        //         res.writeHead(200, {'Content-Type': 'image/jpg' });
+        //         res.end(img, 'binary');
+        // });
 
         /* Download Func */
-        app.get('/download', (req, res) => {
+        app.get('/download/monet', (req, res) => {
                 upload(req, res, function (err) {
                     if (err) {
                         res.status(400).json({message: err.message})
                     } else {
-                    var path =absPath+"/test/BtoA_monet"+filename
+                    var path =absPath+"/test/BtoA_monet_"+filename
                     var img=fs.readFileSync(path);
                     res.writeHead(200, {'Content-Type':'image/jpg'});
                     res.end(img, 'binary');
                     }
                 })
                 // after download, files are deleted
-                fs.unlink(absPath+"/CycleGAN-tensorflow-master/datasets/monet2photo/testB/"+filename, function(err){
+                fs.unlink(absPath+"/CycleGAN-tensorflow-master/datasets/monet2photo/testB/monet_"+filename, function(err){
                     if( err ) throw err;
                     console.log('origin monet : file deleted');
                 });
-                fs.unlink(absPath+"/test/BtoA_monet"+filename, function(err){
+                // fs.unlink(absPath+"/test/BtoA_monet_"+filename, function(err){
+                //     if( err ) throw err;
+                //     console.log('test monet : file deleted');
+                // });
+
+            })
+
+        app.get('/download/vangogh', (req, res) => {
+                upload(req, res, function (err) {
+                    if (err) {
+                        res.status(400).json({message: err.message})
+                    } else {
+                    var path =absPath+"/test/BtoA_vangogh_"+filename
+                    var img=fs.readFileSync(path);
+                    res.writeHead(200, {'Content-Type':'image/jpg'});
+                    res.end(img, 'binary');
+                    }
+                })
+                // after download, files are deleted
+                fs.unlink(absPath+"/CycleGAN-tensorflow-master/datasets/vangogh2photo/testB/vangogh_"+filename, function(err){
                     if( err ) throw err;
-                    console.log('test monet: file deleted');
+                    console.log('origin vangogh : file deleted');
                 });
+                // fs.unlink(absPath+"/test/BtoA_vangogh_"+filename, function(err){
+                //     if( err ) throw err;
+                //     console.log('test vangogh : file deleted');
+                // });
+
+            })
+        app.get('/download/cezanne', (req, res) => {
+                upload(req, res, function (err) {
+                    if (err) {
+                        res.status(400).json({message: err.message})
+                    } else {
+                    var path =absPath+"/test/BtoA_cezanne_"+filename
+                    var img=fs.readFileSync(path);
+                    res.writeHead(200, {'Content-Type':'image/jpg'});
+                    res.end(img, 'binary');
+                    }
+                })
+                // after download, files are deleted
+                fs.unlink(absPath+"/CycleGAN-tensorflow-master/datasets/cezanne2photo/testB/cezanne_"+filename, function(err){
+                    if( err ) throw err;
+                    console.log('origin cezanne : file deleted');
+                });
+                // fs.unlink(absPath+"/test/BtoA_cezanne_"+filename, function(err){
+                //     if( err ) throw err;
+                //     console.log('test cezanne : file deleted');
+                // });
+
+            })
+        
+        app.get('/download/plain', (req, res) => {
+                upload(req, res, function (err) {
+                    if (err) {
+                        res.status(400).json({message: err.message})
+                    } else {
+                    var path =absPath+"/test/"+filename
+                    var img=fs.readFileSync(path);
+                    res.writeHead(200, {'Content-Type':'image/jpg'});
+                    res.end(img, 'binary');
+                    }
+                })
+                // fs.unlink(absPath+"/test/"+filename, function(err){
+                //     if( err ) throw err;
+                //     console.log('plain : file deleted');
+                // });
 
             })
 };
