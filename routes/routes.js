@@ -37,6 +37,7 @@ module.exports = function(app) {
         });
 
         /* Upload Func */
+        /* 파일 폴더 및 이름을 정확히 관리해야 함! */
         app.post('/upload', function(req, res) {
                 console.log(req.files.upload.originalFilename);
                 /* Monet */
@@ -97,23 +98,14 @@ module.exports = function(app) {
 
         });
 
-        // app.get('/uploads/:file', function (req, res){
-        //         file = req.params.file;
-        //         var dirname=absPath+"/routes/uploads"; // on linux
-        //         var img = fs.readFileSync(dirname + "/" + file); // on linux
-
-        //         res.writeHead(200, {'Content-Type': 'image/jpg' });
-        //         res.end(img, 'binary');
-        // });
-
         /* Download Func */
         app.get('/download/monet', (req, res) => {
                 upload(req, res, function (err) {
                     if (err) {
                         res.status(400).json({message: err.message})
                     } else {
-                    var path =absPath+"/test/BtoA_monet_"+filename
-                    var img=fs.readFileSync(path);
+                    var path = absPath+"/test/BtoA_monet_"+filename
+                    var img = fs.readFileSync(path);
                     res.writeHead(200, {'Content-Type':'image/jpg'});
                     res.end(img, 'binary');
                     }
@@ -135,8 +127,8 @@ module.exports = function(app) {
                     if (err) {
                         res.status(400).json({message: err.message})
                     } else {
-                    var path =absPath+"/test/BtoA_vangogh_"+filename
-                    var img=fs.readFileSync(path);
+                    var path = absPath+"/test/BtoA_vangogh_"+filename
+                    var img= fs.readFileSync(path);
                     res.writeHead(200, {'Content-Type':'image/jpg'});
                     res.end(img, 'binary');
                     }
@@ -152,13 +144,14 @@ module.exports = function(app) {
                 });
 
             })
+
         app.get('/download/cezanne', (req, res) => {
                 upload(req, res, function (err) {
                     if (err) {
                         res.status(400).json({message: err.message})
                     } else {
-                    var path =absPath+"/test/BtoA_cezanne_"+filename
-                    var img=fs.readFileSync(path);
+                    var path = absPath+"/test/BtoA_cezanne_"+filename
+                    var img = fs.readFileSync(path);
                     res.writeHead(200, {'Content-Type':'image/jpg'});
                     res.end(img, 'binary');
                     }
@@ -180,8 +173,8 @@ module.exports = function(app) {
                     if (err) {
                         res.status(400).json({message: err.message})
                     } else {
-                    var path =absPath+"/test/"+filename
-                    var img=fs.readFileSync(path);
+                    var path = absPath+"/test/"+filename
+                    var img = fs.readFileSync(path);
                     res.writeHead(200, {'Content-Type':'image/jpg'});
                     res.end(img, 'binary');
                     }
