@@ -50,9 +50,9 @@ sudo docker run -i -t app /bin/bash
 
 ## Contributing
 
-* [Ji-Hye Shin](https://github.com/jihyyeshin) - Android application development
-* [Jin-Gyeong Park](https://github.com/sand116) - Back-end development
-* [Young-Ki Kim](https://github.com/kimyoungi99) - Model training
+* [Ji-Hye Shin](https://github.com/jihyyeshin) - **Android application development**
+* [Jin-Gyeong Park](https://github.com/sand116) - **Back-end development**
+* [Young-Ki Kim](https://github.com/kimyoungi99) - **Model training**
 
 ## Reference
 
